@@ -165,7 +165,9 @@
 <div class="page active" id="page1">
   <img src="https://cdn-icons-png.flaticon.com/512/833/833472.png" alt="Love Icon" class="clickable" id="loveIcon" />
   <div id="text1" style="margin-top: 15px; height: 50px;"></div>
-  <button id="btn1" style="display:none;" onclick="nextPage(2)">Next</button>
+  <button id="btn1" style="display:none;" 
+   
+   onclick="nextPage(2)">Next</button>
 </div>
 
 <!-- Halaman 2 -->
@@ -207,7 +209,6 @@
   const btn1 = document.getElementById('btn1');
   loveIcon.addEventListener('click', () => {
     if (text1.innerHTML) return;
-    
    const message = 'Selamat  Ulang  Tahun  Sayangku 💖';
     showJumpingText(message, text1, () => {
       btn1.style.display = 'inline-block';
