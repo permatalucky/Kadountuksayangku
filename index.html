@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Selamat Ulang Tahun Sayangku</title>
+<style>
+  * {
+    margin: 0; padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  body {
+    background: linear-gradient(to bottom, #f9f3ec, #fff);
+    overflow-x: hidden;
+  }
+  .page {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 20px;
+    text-align: center;
+  }
+  .active {
+    display: flex;
+    animation: fadeIn 1s ease-in-out;
+  }
+  @keyframes fadeIn {
+    from {opacity: 0; transform: translateY(20px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+  button {
+    margin-top: 20px;
+    padding: 12px 24px;
+    font-size: 16px;
+    border: none;
+    border-radius: 12px;
+    background-color: #ff6b81;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+  button:hover {
+    transform: scale(1.1);
+  }
+  img.clickable {
+    width: 140px;
+    cursor: pointer;
+    animation: float 2.5s infinite ease-in-out;
+    margin-bottom: 20px;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+  }
+  .jump-text {
+    display: inline-block;
+    font-size: 2rem;
+    color: #e63946;
+    font-weight: 700;
+    animation: jump 0.7s ease forwards;
+  }
+  @keyframes jump {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0); }
+  }
+  #poemContainer {
+    max-height: 55vh;
+    overflow-y: auto;
+    background: #fef6e4;
+    border: 4px double #a67c00;
+    border-radius: 15px;
+    padding: 25px 30px;
+    font-size: 1.2rem;
+    color: #5a3e1b;
+    line-height: 1.6;
+    width: 90%;
+    max-width: 500px;
+    user-select: none;
+    box-shadow: 0 0 15px #e6d3a3 inset;
+    text-align: left;
+  }
+  .poem-line {
+    opacity: 0;
+    transform: translateX(-20px);
+    animation-fill-mode: forwards;
+  }
+  .bubble-container {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 25px;
+  }
+  .bubble {
+    width: 110px;
+    height: 110px;
+    background: #ffd3b6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 40px;
+    animation: shake 2.2s infinite;
+    user-select: none;
+  }
+  @keyframes shake {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(2deg); }
+    75% { transform: rotate(-2deg); }
+  }
+  .hidden-text {
+    font-size: 1.2rem;
+    color: #444;
+    margin: 12px 0 20px 0;
+    display: none;
+  }
+  #photo {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 40px;
+    animation: float 3s ease-in-out infinite;
+    box-shadow: 0 0 20px #f5a9a9;
+  }
+  .slide-in-text {
+    font-size: 1.4rem;
+    color: #b22222;
+    font-weight: 600;
+    max-width: 400px;
+    animation: slideIn 1.2s ease forwards;
+    opacity: 0;
+    margin-bottom: 25px;
+  }
+  @keyframes slideIn {
+    from {
+      transform: translateX(30px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  textarea {
+    width: 80%;
+    max-width: 450px;
+    height: 120px;
+    border-radius: 12px;
+    padding: 15px;
+    font-size: 1.1rem;
+    border: 2px solid #ff6b81;
+    resize: vertical;
+  }
+</style>
+</head>
+<body>
+
+<!-- Halaman 1 -->
+<div class="page active" id="page1">
+  <img src="https://cdn-icons-png.flaticon.com/512/833/833472.png" alt="Love Icon" class="clickable" id="loveIcon" />
+  <div id="text1" style="margin-top: 15px; height: 50px;"></div>
+  <button id="btn1" style="display:none;" onclick="nextPage(2)">Next</button>
+</div>
+
+<!-- Halaman 2 -->
+<div class="page" id="page2">
+  <img src="https://cdn-icons-png.flaticon.com/512/151/151960.png" alt="Book Icon" class="clickable" id="bookIcon" />
+  <div id="poemContainer" style="display:none; margin-top: 20px;"></div>
+  <button id="btn2" style="display:none;" onclick="nextPage(3)">Next</button>
+</div>
+
+<!-- Halaman 3 -->
+<div class="page" id="page3">
+  <div class="bubble-container">
+    <div class="bubble" data-text="Semoga mas ayang sehat selalu 💗" onclick="showBubbleText(this)">🎀</div>
+    <div class="bubble" data-text="Dilancarkan rezekinya 🥰" onclick="showBubbleText(this)">🎀</div>
+    <div class="bubble" data-text="Dipermudah niat baiknya 💍" onclick="showBubbleText(this)">🎀</div>
+  </div>
+  <div id="bubbleText" class="hidden-text"></div>
+  <button id="btn3" style="display:none;" onclick="nextPage(4)">Next</button>
+</div>
+
+<!-- Halaman 4 -->
+<div class="page" id="page4">
+  <img src="AAAAA KARTUN.jpg" alt="Foto" id="photo" />
+  <div id="slideText" class="slide-in-text"></div>
+  <button id="btn4" style="display:none;" onclick="nextPage(5)">Next</button>
+</div>
+
+<!-- Halaman 5 -->
+<div class="page" id="page5">
+  <h2 style="color:#b22222; margin-bottom: 20px;">Mau apa sayangku?</h2>
+  <textarea id="wish" placeholder="Tulis permintaanmu di sini..."></textarea><br />
+  <button onclick="sendWish()">Kirim ke Aku 💌</button>
+</div>
+
+<script>
+  // Halaman 1
+  const loveIcon = document.getElementById('loveIcon');
+  const text1 = document.getElementById('text1');
+  const btn1 = document.getElementById('btn1');
+  loveIcon.addEventListener('click', () => {
+    if (text1.innerHTML) return;
+    const message = 'Selamat  Ulang  Tahun  Sayangku 💖';
+    showJumpingText(message, text1, () => {
+      btn1.style.display = 'inline-block';
+    });
+  });
+  function showJumpingText(text, container, callback) {
+    container.innerHTML = '';
+    const words = text.split(' ');
+    let i = 0;
+    function showWord() {
+      if (i >= words.length) {
+        if (callback) callback();
+        return;
+      }
+      const span = document.createElement('span');
+      span.classList.add('jump-text');
+      span.textContent = words[i] + ' ';
+      container.appendChild(span);
+      setTimeout(() => { span.style.animation = 'jump 0.7s ease forwards'; }, 10);
+      i++;
+      setTimeout(showWord, 250);
+    }
+    showWord();
+  }
+
+  // Halaman 2
+  const bookIcon = document.getElementById('bookIcon');
+  const poemContainer = document.getElementById('poemContainer');
+  const btn2 = document.getElementById('btn2');
+  const poemLines = [
+    "Mas mungkin aku bukan perempuan yang sempurna",
+    "Aku bukan juga seseorang yang kamu dambakan",
+    "Tapi aku akan jadi wanita kedua setelah ibumu",
+    "Yang siap mati buat kamu",
+    "Jangan pernah ngerasa sendirian",
+    "aku selalu ada di sini sayang",
+    "inget ya, di manapun, kapanpun, dan dalam konidisi apapun",
+    "Aku akan tetep sayang sama kamu",
+    "Sampi kamu sendiri yang maksa aku berhenti"
+  ];
+  bookIcon.addEventListener('click', () => {
+    if (poemContainer.style.display === 'block') return;
+    poemContainer.innerHTML = '';
+    poemContainer.style.display = 'block';
+    showPoemLines(poemLines, poemContainer, () => {
+      btn2.style.display = 'inline-block';
+    });
+  });
+  function showPoemLines(lines, container, callback) {
+    let i = 0;
+    function showLine() {
+      if (i >= lines.length) {
+        if (callback) callback();
+        return;
+      }
+      const p = document.createElement('p');
+      p.textContent = lines[i];
+      p.classList.add('poem-line');
+      container.appendChild(p);
+      p.style.animation = 'fadeIn 0.5s ease forwards';
+      p.style.animationDelay = (i * 600) + 'ms';
+      p.style.opacity = '1';
+      p.style.transform = 'translateX(0)';
+      i++;
+      setTimeout(showLine, 600);
+    }
+    showLine();
+  }
+
+  // Halaman 3
+  const bubbles = document.querySelectorAll('.bubble');
+  const bubbleText = document.getElementById('bubbleText');
+  const btn3 = document.getElementById('btn3');
+  let shownTexts = new Set();
+  function showBubbleText(el) {
+    const text = el.getAttribute('data-text');
+    bubbleText.style.display = 'block';
+    bubbleText.textContent = text;
+    shownTexts.add(text);
+    if(shownTexts.size >= 3) btn3.style.display = 'inline-block';
+  }
+
+  // Halaman 4
+  const slideText = document.getElementById('slideText');
+  const btn4 = document.getElementById('btn4');
+  let slideShown = false;
+  function showSlideText() {
+    if (slideShown) return;
+    slideText.textContent = "Mas hadiah paling indah yang dikasih semesta ke adek 🌹";
+    slideText.style.animation = 'slideIn 1.2s ease forwards';
+    slideText.style.opacity = '1';
+    btn4.style.display = 'inline-block';
+    slideShown = true;
+  }
+  const page4 = document.getElementById('page4');
+  const observer = new MutationObserver(() => {
+    if(page4.classList.contains('active')){
+      showSlideText();
+    }
+  });
+  observer.observe(page4, { attributes: true, attributeFilter: ['class'] });
+
+  // Halaman 5
+  function sendWish() {
+    const isi = document.getElementById('wish').value.trim();
+    if(!isi) {
+      alert('Tolong isi dulu permintaanmu, sayangku 💖');
+      return;
+    }
+    const url = `https://wa.me/6289681166256?text=${encodeURIComponent(isi)}`;
+    window.open(url, '_blank');
+  }
+
+  // Navigasi antar halaman
+  let currentPage = 1;
+  function nextPage(page) {
+    document.getElementById('page' + currentPage).classList.remove('active');
+    document.getElementById('page' + page).classList.add('active');
+    currentPage = page;
+    window.scrollTo(0, 0);
+  }
+</script>
+
+</body>
+</html>
